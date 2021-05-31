@@ -1,6 +1,7 @@
 #include "pilha.h"
 
 #define TAM 30
+ 
 
 void iniciarPilha(PILHA *p) {
     p->topo = NULL;
@@ -9,10 +10,25 @@ void iniciarPilha(PILHA *p) {
 void mostrarPilha(PILHA *p) {
     PONT end = p->topo;
     while (end != NULL) {
+      printf("--------------------------------------\n");
       printf("Nome do prato: ");
       for(int i=0;i<TAM;i++) printf("%c", end->reg.nome[i]);
       printf("\nValor: %.2f\n", end->reg.val);
       end = end->prox;
+    }
+    printf("\n");
+}
+
+void mostrarRefeicoes(PILHA *p, int tipo) {
+    PONT end = p->topo;
+    while (end != NULL) {
+      if(end->reg.tipo==tipo){
+        printf("--------------------------------------\n");
+        printf("Nome do prato: ");
+        for(int i=0;i<TAM;i++) printf("%c", end->reg.nome[i]);
+        printf("\nValor: %.2f\n", end->reg.val);
+      }
+      end = end->prox;              
     }
     printf("\n");
 }

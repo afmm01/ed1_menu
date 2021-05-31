@@ -1,0 +1,23 @@
+TODO:
+	Prato:
+✅️	  - Nome
+✅️	  - Descrição
+	  - Ingredientes
+✅️	  - Preco
+✅️	  - Tipo(Principal, Acompanhamento, Bebida)
+	File Handling
+✅️		Pilha --> .csv
+		.csv --> pilha
+		Apagar no .csv
+	Menu cliente
+✅️		// mostrar pratos
+		// escolher pratos
+		// preco dos pratos
+		fazer pedido
+		ir para menu chef
+	Menu chef
+✅️		adicionar pratos
+		alterar pratos
+		tirar pratos
+		entregar pratos
+

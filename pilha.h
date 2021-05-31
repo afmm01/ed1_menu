@@ -5,10 +5,14 @@
 #include <stdlib.h>
 
 #define TAM 30
+#define TAM_DESC 200
 
 typedef struct {
     char nome[TAM];
+    char descricao[TAM_DESC];
     float val;
+    int tipo;
+
 } REGISTRO;
 
 typedef struct aux {
@@ -23,6 +27,7 @@ typedef struct {
 
 void iniciarPilha(PILHA *p);
 void mostrarPilha(PILHA *p);
+void mostrarRefeicoes(PILHA *p, int tipo);
 void incluirElemento(PILHA *p, REGISTRO reg);
 void apagarTopo(PILHA* p);
 int tamanho(PILHA *p);
