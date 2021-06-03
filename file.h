@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-void createFile();
-void writeStack(PILHA *);
+FILE* isCreated(char[], char[]);
 void appendToStack(PILHA *, REGISTRO);
-void readTheFile();
+void readFile(PILHA *p);
+void deleteLine(char *regLine);
+void findAndDelete(PILHA *p, REGISTRO reg);

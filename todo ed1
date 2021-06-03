@@ -7,8 +7,8 @@ TODO:
 ✅️	  - Tipo(Principal, Acompanhamento, Bebida)
 	File Handling
 ✅️		Pilha --> .csv
-		.csv --> pilha
-		Apagar no .csv
+✅️		.csv --> pilha
+✅️		Apagar no .csv
 	Menu cliente
 ✅️		// mostrar pratos
 		// escolher pratos
@@ -19,5 +19,4 @@ TODO:
 ✅️		adicionar pratos
 		alterar pratos
 		tirar pratos
-		entregar pratos
-
+✅️		entregar pratos

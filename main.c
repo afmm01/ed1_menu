@@ -6,21 +6,25 @@
 void adicionarPratos();
 void opcoesChef();
 int criaTitulo(char*);
+void entregarPrato(PILHA *menu);
 
 int main(void) {
   PILHA menu;
-  char nome[30];
-  criaTitulo("Siri Cascudo");
+  iniciarPilha(&menu);
+  // criaTitulo("Siri Cascudo");
 
   // opcoesChef(&menu);
 
   // adicionarPratos(&menu);
-  readTheFile();
-  
-  // mostrarPilha(&menu);
+  // readFile(&menu);
+  // countLines();
+  readFile(&menu);
+  findAndDelete(&menu, menu.topo->reg);
+
 
   return 0;
 }
+
 
 // Faz um titulo bonitinho *-*
 int criaTitulo(char* nome){
@@ -108,6 +112,36 @@ void alterarPratos(PILHA *menu){
   }
 }
 
+// void entregarPrato(PILHA *menu){
+//   criaTitulo("Entregar Prato");
+//   printf("Nome: %s\n", &menu->topo->reg.nome);
+//   printf("Descricao: %s\n", &menu->topo->reg.descricao);
+//   printf("Preco: %.2f\n", &menu->topo->reg.val);
+//   printf("Tipo: ");
+//   switch (menu->topo->reg.tipo){
+//   case 1 || 2:
+//     printf("Prato principal\n");
+//     break;
+//   case 2:
+//     printf("Acompanhamento\n");
+//     break;  
+//   default:
+//     printf("Bebida\n");
+//     break;
+//   }
+//   char sOn;
+//   do{
+//     printf("Pronto para entregar? [S/n] ");
+//     scanf("%c", &sOn);
+//   } while(sOn=='s' || sOn=='S' || sOn== 'N' || sOn=='n');
+//   if(sOn=='s' || sOn=='S'){
+//     apagarTopo(&menu);
+//     deleteLine(&menu, menu->topo->reg);
+//     printf("O prato foi entregue com sucesso!\n");
+//   }
+//   printf("Voltando ao menu principal...\n\n");
+//   opcoesChef(menu);
+// }
 
 // // MENU CHEF
 // void opcoesChef(PILHA *menu){

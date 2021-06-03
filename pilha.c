@@ -13,7 +13,10 @@ void mostrarPilha(PILHA *p) {
       printf("--------------------------------------\n");
       printf("Nome do prato: ");
       for(int i=0;i<TAM;i++) printf("%c", end->reg.nome[i]);
-      printf("\nValor: %.2f\n", end->reg.val);
+      printf("\nDescricao: ");
+      for(int i=0;i<TAM_DESC;i++) printf("%c", end->reg.descricao[i]);
+      printf("\nValor: %.2f", end->reg.val);
+      printf("\nTipo: %d\n", end->reg.tipo);
       end = end->prox;
     }
     printf("\n");

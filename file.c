@@ -2,79 +2,115 @@
 #include "pilha.h"
 #include <string.h>
 
-void createFile(){
-    FILE *fptr;
-    fptr = fopen("pilha.csv", "w");
-    // fptr = fopen("pilha.bin", "wb");
+char fileName[] = "teste.csv";
+
+// Cria arquivo se esse nao existir e adiciona primeira linha
+FILE* isCreated(char name[], char type[]){
+  FILE *fptr;
+  
+  fptr = fopen(name, "r");
+  if(fptr == NULL){
+    fptr = fopen(name, type);
+    fprintf(fptr, "Prato,Descricao,Preco,Tipo\n");
+  }
+  // fclose(fptr);
+  return fptr;
 }
 
-void writeStack(PILHA *p) {
-    FILE *fptr;
-    // fptr = fopen("teste.bin", "ab+");
-    fptr = fopen("teste.csv", "a+");
-    PONT end = p->topo;
-    while (end != NULL) {
-      for(int i=0;i<TAM;i++) fprintf(fptr, "%c", end->reg.nome[i]);
-      fprintf(fptr, ",%.2f\n", end->reg.val);
-      end = end->prox;
-    }
-    fprintf(fptr, "\n");
-}
 
 void appendToStack(PILHA *p, REGISTRO reg) {
-    FILE *fptr;
-    fptr = fopen("teste.csv", "ab+");
-    for(int i=0;i<strlen(reg.nome);i++) {
-      fprintf(fptr, "%c", reg.nome[i]);
-    }
-    fprintf(fptr, ",%.2f\n", reg.val);
-
-    fclose(fptr);
-}
-
-void readTheFile(){
-  REGISTRO reg;
   FILE *fptr;
-  char *line, split[7][TAM];
-  int cont=0, i, j, k;
-  size_t len; 
-  ssize_t read;   // conta o tamanho da linha (%zu)
+  fptr = isCreated(fileName, "a");
 
-  fptr = fopen("teste.csv", "r");
-  if(fptr == NULL){     // Sai do programa se o arquivo nao tiver conteudo
-    puts("File does not exists.");
-    exit(1);
-  }
-  
-  cont=0;
-  while ((read = getline(&line, &len, fptr)) != -1) {
-    // printf("Retrieved line of length %zu:\n", read);
-    
-
-    i=0; j=0; k=0;
-    for(int i=0;i<read;i++){
-      if(line[i]== ',' || line[i]=='\0'){
-        split[cont][j]='\0';
-        cont++;
-        j=0;
-        printf(" - cont: %d\n", cont);
-      } else {
-        split[cont][j] = line[i];
-        printf("%c", split[cont][j]);
-        j++;
-      }
-    }
-    k++;
-    if(k>0){
-
-    }
-    // for(int i=0;i < cont;i++) printf(" %s\n",split[i]);
-    printf("\n");
-  }
-  // for(int i=0;i < cont;i++) printf(" %s\n",split[i]);
-  printf(" %s\n",split[2]);
+  for(int i=0;i<strlen(reg.nome);i++) fprintf(fptr, "%c", reg.nome[i]);
+  fprintf(fptr,",");
+  for(int i=0;i<strlen(reg.descricao);i++) fprintf(fptr, "%c", reg.descricao[i]);
+  fprintf(fptr, ",%.2f\n", reg.val);
+  fprintf(fptr, ",%d\n", reg.tipo);
 
   fclose(fptr);
 }
 
-// void addFIleToStack(){}
+void readFile(PILHA *p){
+  REGISTRO reg[100];
+  FILE *fptr;
+  char *line, split[7][TAM], *token;
+  int cont=0, i=0, y, z=0;
+  float x;
+  size_t len; 
+  ssize_t read;   // conta o tamanho da linha (%zu)
+
+  fptr = isCreated(fileName, "r");
+  
+  while ((read = getline(&line, &len, fptr)) != -1) {
+    token = strtok(line, ","); // pega o primeiro token
+
+    while( token != NULL ) { // pega os outros tokens
+      strcpy(split[i], token); // copia a palavra de token para o vetor split[]
+      token = strtok(NULL, ",");
+      if(i>3){
+        if(i%4==0){
+          strcpy(reg[z].nome, split[i]);
+        } else if((i-1)%4==0){
+          strcpy(reg[z].descricao, split[i]);
+        } else if((i-2)%4==0){
+          x = atof(split[i]); // converte string em float
+          reg[z].val = x;
+        } else {
+          y = atoi(split[i]); // converte string em int
+          reg[z].tipo = y;
+          incluirElemento(p, reg[z]);
+          z++;
+        }
+      }
+      i++;
+    }
+  }
+  fclose(fptr);
+}
+
+void deleteLine(char *regLine){
+  FILE *fptr = fopen(fileName, "r");
+  if (fptr == NULL) {
+      printf("Cannot open file.\n");
+      return ;
+  }
+  else { // Checa o numero de linhas no arquivo
+    char ch;
+    int count = 0;
+    do {
+    ch = fgetc(fptr);
+    if (ch == '\n') count++;
+    } while (ch != EOF);
+    rewind(fptr);
+
+    char temp[count+1][100];
+    int i;
+    // Escaneia cada linha do arquivo
+    for (i = 0; i <= count; i++) 
+      fscanf(fptr, "%1023[^\n]\n", temp[i]);
+    fclose(fptr);
+
+    fptr = fopen(fileName, "w");
+    for(i=0;i<=count;i++)
+      if(strcmp(temp[i], regLine)!=0) fprintf(fptr, "%s\n", temp[i]);
+
+    fclose(fptr);
+  }
+}
+
+void findAndDelete(PILHA *p, REGISTRO reg){
+  char regLine[250] = "";
+  // strcat(regLine, "me ajuda ai po");
+  strcat(regLine, reg.nome);
+  strcat(regLine, ",");
+  strcat(regLine, reg.descricao);
+  strcat(regLine, ",");
+  char val[10]; sprintf(val, "%.2f", reg.val);
+  strcat(regLine, val);
+  strcat(regLine, ",");
+  char tipo[2]; sprintf(tipo, "%d", reg.tipo);
+  strcat(regLine, tipo);
+
+  deleteLine(regLine);
+}
