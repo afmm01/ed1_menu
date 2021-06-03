@@ -28,14 +28,15 @@ int mostrarRefeicoes(PILHA *p, int tipo) {
     int qtd=0;
     while (end != NULL) {
       if(end->reg.tipo==tipo){
-        printf("--------------------------------------\n");
+        qtd++;
+        printf("Prato %d -------------------------\n", qtd);
         printf("Nome do prato: ");
         for(int i=0;i<TAM;i++) printf("%c", end->reg.nome[i]);
         printf("\nDescricao: ");
         for(int i=0;i<TAM_DESC;i++) printf("%c", end->reg.descricao[i]);
         printf("\nValor: %.2f", end->reg.val);
         printf("\nTipo: %d\n", end->reg.tipo);
-        qtd++;
+        printf("----------------------------------\n");
       }
       end = end->prox;              
     }
@@ -58,19 +59,21 @@ void trocarPrato(PILHA *p, int tipo, int esse) {
         for(int i=0;i<TAM_DESC;i++) printf("%c", end->reg.descricao[i]);
         printf("\n[3] - Valor: %.2f", end->reg.val);
         printf("\n[4] - Tipo: %d\n", end->reg.tipo);
+        printf("--------------------------------------\n");
+        printf("Digite a caracteristica a ser atualizada: ");
         scanf("%d", &carac);
-        printf("Digite a caracteristica atualizada: ");
+        printf("Digite a caracteristica atualizada:\n> ");
         char nome[TAM];
         char descricao[TAM_DESC];
         float val;
         int tipo;
         switch (carac) {
         case 1:
-          scanf("%[^\n]", nome);
+          scanf(" %[^\n]", nome);
           strcpy(end->reg.nome, nome);
           break;
         case 2:
-          scanf("%[^\n]", descricao);
+          scanf(" %[^\n]", descricao);
           strcpy(end->reg.descricao, descricao);
           break;
         case 3:

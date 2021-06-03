@@ -16,6 +16,7 @@ int main(void) {
   PILHA menu;
   iniciarPilha(&menu);
 
+  readFile(&menu);
   opcoesCliente(&menu);
 
   return 0;
@@ -134,7 +135,7 @@ void alterarPratos(PILHA *menu){
   int tipo, qtd=0, esse;
   printf("Quais tipos de pratos voce quer alterar?\n");
   do{
-    printf("[1] - Prato Principal\n[2] - Acompanhamento\n[3] - Bebida\n>");
+    printf("[1] - Prato Principal\n[2] - Acompanhamento\n[3] - Bebida\n> ");
     scanf("%d", &tipo);
   } while(tipo>3 || tipo<1);
   if(tipo==1){
@@ -147,9 +148,12 @@ void alterarPratos(PILHA *menu){
     criaTitulo("Bebidas");
     qtd = mostrarRefeicoes(menu, tipo);
   }
-  printf("Qual prato deseja alterar?\n");
+  printf("Qual prato deseja alterar?\n> ");
   scanf("%d", &esse);
-  if(esse<=qtd) trocarPrato(menu, tipo, esse); 
+  if(esse<=qtd) {
+    trocarPrato(menu, tipo, esse); 
+    overwriteFile(menu);
+  }
   else puts("Esse prato nao existe\n");
 }
 
@@ -159,7 +163,7 @@ void opcoesChef(PILHA *menu){
   int sn;
   criaTitulo("Menu Corporativo");
   printf("[1] - Entregar pratos\n[2] - Adicionar pratos\n[3] - Alterar pratos\n[4] - Voltar ao menu do cliente\n");
-  printf("=================================\n");
+  printf("=================================\n> ");
   // char opcoes[] = "[1] - Entregar pratos\n[2] - Adicionar pratos\n[3] - Alterar pratos\n[4] - Voltar ao menu do cliente\n";
   // criaMenu("Menu Corporativo", opcoes);
   scanf("%d",&sn);
@@ -175,6 +179,7 @@ void opcoesChef(PILHA *menu){
     break;
   case 3:
     alterarPratos(menu);
+    opcoesChef(menu);
     break;
   case 4:
     opcoesCliente(menu);
