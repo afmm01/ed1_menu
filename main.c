@@ -3,24 +3,20 @@
 #include "file.h"
 #include "string.h"
 
-void adicionarPratos();
-void opcoesChef();
 int criaTitulo(char*);
-void entregarPrato(PILHA *menu);
+void criaMenu(char*, char*);
+void opcoesCliente(PILHA *);
+void entregarPrato(PILHA *);
+void adicionarPratos(PILHA *);
+void alterarPratos(PILHA *);
+void opcoesChef(PILHA *);
+
 
 int main(void) {
   PILHA menu;
   iniciarPilha(&menu);
-  // criaTitulo("Siri Cascudo");
 
-  // opcoesChef(&menu);
-
-  // adicionarPratos(&menu);
-  // readFile(&menu);
-  // countLines();
-  readFile(&menu);
-  findAndDelete(&menu, menu.topo->reg);
-
+  opcoesCliente(&menu);
 
   return 0;
 }
@@ -49,16 +45,58 @@ int criaTitulo(char* nome){
   return 0;
 }
 
-
+void criaMenu(char* titulo, char* corpo){
+  criaTitulo(titulo);
+  printf("\n");
+  criaTitulo(corpo);
+}
 
 
 // FUNCOES DO MENU CLIENTE
 
+// MENU CLIENTE
+void opcoesCliente(PILHA *menu){
+  int sn;
+  criaTitulo("Siri Cascudo");
+  printf("[1] - Fazer pedido\n[2] - Menu do Chef\nO que deseja fazer?\n> ");
+  scanf("%d",&sn);
+  if(sn==1){
+    /* code */
+  } else {
+    opcoesChef(menu);
+  }
+}
 
 
 // FUNCOES DO MENU CHEF
 void entregarPrato(PILHA *menu){
-
+  criaTitulo("Entregar Prato");
+  printf("Nome: %s\n", menu->topo->reg.nome);
+  printf("Descricao: %s\n", menu->topo->reg.descricao);
+  printf("Preco: %.2f\n", menu->topo->reg.val);
+  printf("Tipo: ");
+  switch (menu->topo->reg.tipo){
+  case 1 || 2:
+    printf("Prato principal\n");
+    break;
+  case 2:
+    printf("Acompanhamento\n");
+    break;  
+  default:
+    printf("Bebida\n");
+    break;
+  }
+  char sOn;
+  do{
+    printf("Pronto para entregar? [S/n] ");
+    scanf("%c", &sOn);
+  } while(sOn=='s' || sOn=='S' || sOn== 'N' || sOn=='n');
+  if(sOn=='s' || sOn=='S'){
+    apagarTopo(menu);
+    findAndDelete(menu, menu->topo->reg);
+    printf("O prato foi entregue com sucesso!\n");
+  }
+  printf("Voltando ao menu principal...\n\n");
 }
 
 void adicionarPratos(PILHA *menu){
@@ -90,82 +128,61 @@ void adicionarPratos(PILHA *menu){
     printf("Adicionar outro prato[S/n] ");
     scanf(" %c", &seguir);
   } while(seguir=='S' || seguir=='s');
-
 }
 
 void alterarPratos(PILHA *menu){
-  int tipo;
-  printf("Quais pratos voce quer alterar?\n");
+  int tipo, qtd=0, esse;
+  printf("Quais tipos de pratos voce quer alterar?\n");
   do{
     printf("[1] - Prato Principal\n[2] - Acompanhamento\n[3] - Bebida\n>");
     scanf("%d", &tipo);
   } while(tipo>3 || tipo<1);
   if(tipo==1){
     criaTitulo("Pratos Principais");
-    mostrarRefeicoes(menu, tipo);
+    qtd = mostrarRefeicoes(menu, tipo);
   } else if(tipo==2){
     criaTitulo("Acompanhamento");
-    mostrarRefeicoes(menu, tipo);
+    qtd = mostrarRefeicoes(menu, tipo);
   } else {
     criaTitulo("Bebidas");
-    mostrarRefeicoes(menu, tipo);
+    qtd = mostrarRefeicoes(menu, tipo);
   }
+  printf("Qual prato deseja alterar?\n");
+  scanf("%d", &esse);
+  if(esse<=qtd) trocarPrato(menu, tipo, esse); 
+  else puts("Esse prato nao existe\n");
 }
 
-// void entregarPrato(PILHA *menu){
-//   criaTitulo("Entregar Prato");
-//   printf("Nome: %s\n", &menu->topo->reg.nome);
-//   printf("Descricao: %s\n", &menu->topo->reg.descricao);
-//   printf("Preco: %.2f\n", &menu->topo->reg.val);
-//   printf("Tipo: ");
-//   switch (menu->topo->reg.tipo){
-//   case 1 || 2:
-//     printf("Prato principal\n");
-//     break;
-//   case 2:
-//     printf("Acompanhamento\n");
-//     break;  
-//   default:
-//     printf("Bebida\n");
-//     break;
-//   }
-//   char sOn;
-//   do{
-//     printf("Pronto para entregar? [S/n] ");
-//     scanf("%c", &sOn);
-//   } while(sOn=='s' || sOn=='S' || sOn== 'N' || sOn=='n');
-//   if(sOn=='s' || sOn=='S'){
-//     apagarTopo(&menu);
-//     deleteLine(&menu, menu->topo->reg);
-//     printf("O prato foi entregue com sucesso!\n");
-//   }
-//   printf("Voltando ao menu principal...\n\n");
-//   opcoesChef(menu);
-// }
 
 // // MENU CHEF
-// void opcoesChef(PILHA *menu){
-//   int sn;
-//   // printf("[1] - Entregar pratos\n[2] - Adicionar pratos\n[3] - Alterar pratos\n[4] - Remover pratos\n");
-//   char opcoes[] = "[1] - Entregar prato\n[2] - Adicionar pratos\n[3] - Alterar pratos\n[4] - Remover pratos\n";
-//   criaMenu("Menu Corporativo", opcoes);
-//   scanf("%d",&sn);
-//   switch (sn)
-//   {
-//   case 1:
-//     /* code */entregarPrato(menu);
-//     break;
-//   case 2:
-//     adicionarPratos(menu);
-//     break;
-//   case 3:
-//     /* code */
-//     break;
-//   case 4:
-//     /* code */
-//     break;
-//  
-//   default:
-//     break;
-//   }
-// }
+void opcoesChef(PILHA *menu){
+  int sn;
+  criaTitulo("Menu Corporativo");
+  printf("[1] - Entregar pratos\n[2] - Adicionar pratos\n[3] - Alterar pratos\n[4] - Voltar ao menu do cliente\n");
+  printf("=================================\n");
+  // char opcoes[] = "[1] - Entregar pratos\n[2] - Adicionar pratos\n[3] - Alterar pratos\n[4] - Voltar ao menu do cliente\n";
+  // criaMenu("Menu Corporativo", opcoes);
+  scanf("%d",&sn);
+  switch (sn)
+  {
+  case 1:
+    entregarPrato(menu);
+    opcoesChef(menu);
+    break;
+  case 2:
+    adicionarPratos(menu);
+    opcoesChef(menu);
+    break;
+  case 3:
+    alterarPratos(menu);
+    break;
+  case 4:
+    opcoesCliente(menu);
+    opcoesChef(menu);
+    break;
+  default:
+    printf("Opcao incorreta! Voltando ao menu do cliente\n\n\n");
+    opcoesCliente(menu);
+    break;
+  }
+}

@@ -1,4 +1,5 @@
 #include "pilha.h"
+#include "string.h"
 
 #define TAM 30
  
@@ -22,18 +23,73 @@ void mostrarPilha(PILHA *p) {
     printf("\n");
 }
 
-void mostrarRefeicoes(PILHA *p, int tipo) {
+int mostrarRefeicoes(PILHA *p, int tipo) {
     PONT end = p->topo;
+    int qtd=0;
     while (end != NULL) {
       if(end->reg.tipo==tipo){
         printf("--------------------------------------\n");
         printf("Nome do prato: ");
         for(int i=0;i<TAM;i++) printf("%c", end->reg.nome[i]);
-        printf("\nValor: %.2f\n", end->reg.val);
+        printf("\nDescricao: ");
+        for(int i=0;i<TAM_DESC;i++) printf("%c", end->reg.descricao[i]);
+        printf("\nValor: %.2f", end->reg.val);
+        printf("\nTipo: %d\n", end->reg.tipo);
+        qtd++;
       }
       end = end->prox;              
     }
     printf("\n");
+    return qtd;
+}
+
+void trocarPrato(PILHA *p, int tipo, int esse) {
+  PONT end = p->topo;
+  int qtd=0, carac;
+  while (end != NULL) {
+    if(end->reg.tipo==tipo){
+      qtd++;
+      if(esse==qtd){
+        printf("Escolha a caracterisitca a ser alterada:\n");
+        printf("--------------------------------------\n");
+        printf("[1] - Nome do prato: ");
+        for(int i=0;i<TAM;i++) printf("%c", end->reg.nome[i]);
+        printf("\n[2] - Descricao: ");
+        for(int i=0;i<TAM_DESC;i++) printf("%c", end->reg.descricao[i]);
+        printf("\n[3] - Valor: %.2f", end->reg.val);
+        printf("\n[4] - Tipo: %d\n", end->reg.tipo);
+        scanf("%d", &carac);
+        printf("Digite a caracteristica atualizada: ");
+        char nome[TAM];
+        char descricao[TAM_DESC];
+        float val;
+        int tipo;
+        switch (carac) {
+        case 1:
+          scanf("%[^\n]", nome);
+          strcpy(end->reg.nome, nome);
+          break;
+        case 2:
+          scanf("%[^\n]", descricao);
+          strcpy(end->reg.descricao, descricao);
+          break;
+        case 3:
+          scanf("%f", &val);
+          end->reg.val = val;
+          break;
+        case 4:
+          scanf("%d", &tipo);
+          end->reg.tipo = tipo;
+          break;   
+        default:
+          puts("Opcao nao corresponde a nenhuma caracteristica");
+          break;
+        }
+      }
+    }
+    end = end->prox;              
+  }
+  printf("\n");
 }
 
 void incluirElemento(PILHA *p, REGISTRO reg) {

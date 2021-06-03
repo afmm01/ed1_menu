@@ -2,7 +2,7 @@ TODO:
 	Prato:
 ✅️	  - Nome
 ✅️	  - Descrição
-	  - Ingredientes
+❎️	  - Ingredientes
 ✅️	  - Preco
 ✅️	  - Tipo(Principal, Acompanhamento, Bebida)
 	File Handling
@@ -11,8 +11,8 @@ TODO:
 ✅️		Apagar no .csv
 	Menu cliente
 ✅️		// mostrar pratos
-		// escolher pratos
-		// preco dos pratos
+❎️		// escolher pratos
+❎️		// preco dos pratos
 		fazer pedido
 		ir para menu chef
 	Menu chef

@@ -27,7 +27,8 @@ typedef struct {
 
 void iniciarPilha(PILHA *p);
 void mostrarPilha(PILHA *p);
-void mostrarRefeicoes(PILHA *p, int tipo);
+int mostrarRefeicoes(PILHA *p, int tipo);
+void trocarPrato(PILHA *, int, int);
 void incluirElemento(PILHA *p, REGISTRO reg);
 void apagarTopo(PILHA* p);
 int tamanho(PILHA *p);
