@@ -10,7 +10,12 @@ void appendToStack(PILHA *p, REGISTRO reg) {
   fprintf(fptr, "\n");
   for(int i=0;i<strlen(reg.nome);i++) fprintf(fptr, "%c", reg.nome[i]);
   fprintf(fptr,",");
-  for(int i=0;i<strlen(reg.descricao);i++) fprintf(fptr, "%c", reg.descricao[i]);
+  for(int i=0;i<strlen(reg.descricao);i++) {
+    if(reg.descricao[i]==',')
+      fprintf(fptr, ";");
+    else
+      fprintf(fptr, "%c", reg.descricao[i]);
+  }
   fprintf(fptr, ",%.2f", reg.val);
   fprintf(fptr, ",%d", reg.tipo);
 
@@ -86,8 +91,9 @@ void deleteLine(char *regLine){
     fclose(fptr);
 
     fptr = fopen(fileName, "w");
+    fprintf(fptr, "Prato,Descricao,Preco,Tipo\n");
     for(i=0;i<=count;i++)
-      if(strcmp(temp[i], regLine)!=0) fprintf(fptr, "%s\n", temp[i]);
+      if(strcmp(temp[i], regLine)!=0) fprintf(fptr, "\n%s", temp[i]);
 
     fclose(fptr);
   }
@@ -113,15 +119,21 @@ void overwriteFile(PILHA *p){
   FILE *fptr;
   
   fptr = fopen(fileName, "w");
-  fprintf(fptr, "Prato,Descricao,Preco,Tipo\n");
+  fprintf(fptr, "Prato,Descricao,Preco,Tipo");
 
   PONT end = p->topo;
   while(end!=NULL){
+    fprintf(fptr, "\n");
     for(int i=0;i<strlen(end->reg.nome);i++) fprintf(fptr, "%c", end->reg.nome[i]);
     fprintf(fptr,",");
-    for(int i=0;i<strlen(end->reg.descricao);i++) fprintf(fptr, "%c", end->reg.descricao[i]);
+  for(int i=0;i<strlen(end->reg.descricao);i++) {
+    if(end->reg.descricao[i]==',')
+      fprintf(fptr, ";");
+    else
+      fprintf(fptr, "%c", end->reg.descricao[i]);
+  }
     fprintf(fptr, ",%.2f", end->reg.val);
-    fprintf(fptr, ",%d\n", end->reg.tipo);
+    fprintf(fptr, ",%d", end->reg.tipo);
     end = end->prox;
   }
 

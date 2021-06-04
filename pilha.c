@@ -91,7 +91,7 @@ PEDPTR apresentarPrato(PILHA *p, int tipo){
   return NULL;
 }
 
-void trocarPrato(PILHA *p, int tipo, int esse) {
+int trocarPrato(PILHA *p, int tipo, int esse) {
   PONT end = p->topo;
   int qtd=0, carac;
   while (end != NULL) {
@@ -139,8 +139,9 @@ void trocarPrato(PILHA *p, int tipo, int esse) {
           break;   
         default:
           puts("Opcao nao corresponde a nenhuma caracteristica");
-          break;
+          return 0;
         }
+        return 1;
       }
     }
     end = end->prox;              

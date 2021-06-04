@@ -32,7 +32,7 @@ int mostrarRefeicoes(PILHA *p, int tipo);
 void enfase(char*, int);
 void limparTela();
 PEDPTR apresentarPrato(PILHA *, int);
-void trocarPrato(PILHA *, int, int);
+int trocarPrato(PILHA *, int, int);
 void incluirElemento(PILHA *p, REGISTRO reg);
 void apagarTopo(PILHA* p);
 PONT apagarPrato(PILHA *p, int tipo, int esse);

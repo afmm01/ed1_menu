@@ -191,8 +191,8 @@ void alterarPratos(PILHA *menu){
   scanf("%d", &esse);
   limparTela();
   if(esse<=qtd) {
-    trocarPrato(menu, tipo, esse); 
-    overwriteFile(menu);
+    int trocou = trocarPrato(menu, tipo, esse);
+    if(trocou==1) overwriteFile(menu);
   }
   else puts("Esse prato nao existe\n");
   aperteEnter();
