@@ -32,10 +32,10 @@ int mostrarRefeicoes(PILHA *p, int tipo) {
         qtd++;
         printf("Prato %d -------------------------\n", qtd);
         printf("Nome do prato: ");
-        for(int i=0;i<TAM;i++) printf("%c", end->reg.nome[i]);
-        printf("\nDescricao: ");
-        for(int i=0;i<TAM_DESC;i++) printf("%c", end->reg.descricao[i]);
-        printf("\nValor: %.2f", end->reg.val);
+        puts(end->reg.nome);
+        printf("Descricao: ");
+        puts(end->reg.descricao);
+        printf("Valor: %.2f", end->reg.val);
         printf("\nTipo: %d\n", end->reg.tipo);
         printf("----------------------------------\n");
       }

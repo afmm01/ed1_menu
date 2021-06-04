@@ -1,21 +1,7 @@
 #include "pilha.h"
 #include <string.h>
 
-char fileName[] = "teste.csv";
-
-// Cria arquivo se esse nao existir e adiciona primeira linha
-FILE* isCreated(char name[], char type[]){
-  FILE *fptr;
-  
-  fptr = fopen(name, "r");
-  if(fptr == NULL){
-    fptr = fopen(name, type);
-    fprintf(fptr, "Prato,Descricao,Preco,Tipo\n");
-  }
-  // fclose(fptr);
-  return fptr;
-}
-
+char fileName[] = "pratos.csv";
 
 void appendToStack(PILHA *p, REGISTRO reg) {
   FILE *fptr;
@@ -40,8 +26,16 @@ void readFile(PILHA *p){
   size_t len; 
   ssize_t read;   // conta o tamanho da linha (%zu)
 
-  fptr = isCreated(fileName, "r");
-  
+  fptr = fopen(fileName, "r");
+
+  if(fptr == NULL){
+    fptr = fopen(fileName, "w");
+    fprintf(fptr, "Prato,Descricao,Preco,Tipo");
+    puts("Nao existem prato ainda, favor adicione alguns na lista");
+    fclose(fptr);
+    return;
+  }
+
   while ((read = getline(&line, &len, fptr)) != -1) {
     token = strtok(line, ","); // pega o primeiro token
 
