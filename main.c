@@ -4,7 +4,7 @@
 #include "string.h"
 
 int criaTitulo(char*);
-void criaMenu(char*, char*);
+void fazerPedido(PILHA *);
 void opcoesCliente(PILHA *);
 void entregarPrato(PILHA *);
 void adicionarPratos(PILHA *);
@@ -46,25 +46,46 @@ int criaTitulo(char* nome){
   return 0;
 }
 
-void criaMenu(char* titulo, char* corpo){
-  criaTitulo(titulo);
-  printf("\n");
-  criaTitulo(corpo);
+void emitirNota(char *nome, float val, int tam) {
+    int espaco = (tam - strlen(nome)) / 2;
+    printf("%s%*s%*s%.2f\n", nome, espaco, "", espaco, "", val);
 }
 
-
 // FUNCOES DO MENU CLIENTE
+void fazerPedido(PILHA *menu){
+  PONT pedido[3];
+  float total=0;
+  for(int tipo=0;tipo<3;tipo++){
+    do{
+      pedido[tipo] = apresentarPrato(menu, tipo+1);
+    } while(pedido[tipo]==NULL);
+    printf("Pedido realizado com sucesso!\n");
+  }
+  limparTela();
+  criaTitulo("Nota Fiscal");
+  for(int i=0;i<3;i++){
+    emitirNota(pedido[i]->reg.nome, pedido[i]->reg.val, 30);
+    total+=pedido[i]->reg.val;
+  }
+  printf("---------------------------------\n");
+  emitirNota("Total", total, 28);
+  printf("=================================\n");
+}
 
-// MENU CLIENTE
+// // MENU CLIENTE
 void opcoesCliente(PILHA *menu){
   int sn;
+  limparTela();
   criaTitulo("Siri Cascudo");
-  printf("[1] - Fazer pedido\n[2] - Menu do Chef\nO que deseja fazer?\n> ");
+  printf("[1] - Fazer pedido\n[2] - Menu do Chef\n[3] - Sair\nO que deseja fazer?\n> ");
   scanf("%d",&sn);
   if(sn==1){
-    /* code */
-  } else {
+    fazerPedido(menu);
+  } else if(sn==2){
     opcoesChef(menu);
+  } else {
+    puts("Ate logo!");
+    exit(1);
   }
 }
 
@@ -77,7 +98,7 @@ void entregarPrato(PILHA *menu){
   printf("Preco: %.2f\n", menu->topo->reg.val);
   printf("Tipo: ");
   switch (menu->topo->reg.tipo){
-  case 1 || 2:
+  case 1:
     printf("Prato principal\n");
     break;
   case 2:
@@ -150,6 +171,7 @@ void alterarPratos(PILHA *menu){
   }
   printf("Qual prato deseja alterar?\n> ");
   scanf("%d", &esse);
+  limparTela();
   if(esse<=qtd) {
     trocarPrato(menu, tipo, esse); 
     overwriteFile(menu);
@@ -161,12 +183,14 @@ void alterarPratos(PILHA *menu){
 // // MENU CHEF
 void opcoesChef(PILHA *menu){
   int sn;
+  limparTela();
   criaTitulo("Menu Corporativo");
   printf("[1] - Entregar pratos\n[2] - Adicionar pratos\n[3] - Alterar pratos\n[4] - Voltar ao menu do cliente\n");
   printf("=================================\n> ");
   // char opcoes[] = "[1] - Entregar pratos\n[2] - Adicionar pratos\n[3] - Alterar pratos\n[4] - Voltar ao menu do cliente\n";
   // criaMenu("Menu Corporativo", opcoes);
   scanf("%d",&sn);
+  limparTela();
   switch (sn)
   {
   case 1:

@@ -20,13 +20,14 @@ FILE* isCreated(char name[], char type[]){
 
 void appendToStack(PILHA *p, REGISTRO reg) {
   FILE *fptr;
-  fptr = isCreated(fileName, "a");
+  fptr = fopen(fileName, "a");
 
+  fprintf(fptr, "\n");
   for(int i=0;i<strlen(reg.nome);i++) fprintf(fptr, "%c", reg.nome[i]);
   fprintf(fptr,",");
   for(int i=0;i<strlen(reg.descricao);i++) fprintf(fptr, "%c", reg.descricao[i]);
   fprintf(fptr, ",%.2f", reg.val);
-  fprintf(fptr, ",%d\n", reg.tipo);
+  fprintf(fptr, ",%d", reg.tipo);
 
   fclose(fptr);
 }

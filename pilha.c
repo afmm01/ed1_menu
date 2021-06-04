@@ -44,6 +44,37 @@ int mostrarRefeicoes(PILHA *p, int tipo) {
     return qtd;
 }
 
+void limparTela(){
+  printf("\e[1;1H\e[2J");
+}
+void enfase(char *texto, int tam) {
+    int espaco = (tam - strlen(texto)) / 2;
+    printf("%*s%s%*s\n", espaco, "", texto, espaco, "");
+} 
+
+PONT apresentarPrato(PILHA *p, int tipo){
+  PONT end = p->topo;
+  char type[3][20] = {"Prato Principal", "Acompanhamento", "Bebida"};
+  char s[10], j;
+  while (end != NULL) {
+    if(end->reg.tipo==tipo){
+      limparTela();
+      enfase(type[tipo-1], 30);
+      printf("------------------------------\n");
+      enfase(end->reg.nome, 30);
+      enfase(end->reg.descricao, 30);
+      sprintf(s, "\nR$%.2f", end->reg.val);
+      int espaco = (30 - strlen(s)) / 2;
+      printf("%*s%s%*s\n", espaco, "", s, espaco, "");
+      printf("------------------------------\nEscolha uma opcao:\n");
+      printf("C - Comprar\nP - Proximo %s\n>", type[tipo-1]);
+      scanf(" %c", &j);
+      if (j=='c' || j=='C') return end;
+    }
+    end = end->prox;              
+  }
+}
+
 void trocarPrato(PILHA *p, int tipo, int esse) {
   PONT end = p->topo;
   int qtd=0, carac;
@@ -51,6 +82,7 @@ void trocarPrato(PILHA *p, int tipo, int esse) {
     if(end->reg.tipo==tipo){
       qtd++;
       if(esse==qtd){
+        limparTela();
         printf("Escolha a caracterisitca a ser alterada:\n");
         printf("--------------------------------------\n");
         printf("[1] - Nome do prato: ");
@@ -92,7 +124,7 @@ void trocarPrato(PILHA *p, int tipo, int esse) {
     }
     end = end->prox;              
   }
-  printf("\n");
+  limparTela();
 }
 
 void incluirElemento(PILHA *p, REGISTRO reg) {
