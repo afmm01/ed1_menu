@@ -9,6 +9,7 @@ void opcoesCliente(PILHA *, FILA *);
 void entregarPrato(FILA *);
 void adicionarPratos(PILHA *);
 void alterarPratos(PILHA *);
+void apagarPratos(PILHA *, FILA *);
 void opcoesChef(PILHA *, FILA *);
 
 
@@ -198,16 +199,52 @@ void alterarPratos(PILHA *menu){
   aperteEnter();
 }
 
+void apagarPratos(PILHA *menu, FILA *pedido){
+  PILHA novoMenu;
+  iniciarPilha(&novoMenu);
+  int tipo, qtd=0, esse;
+  criaTitulo("Apagar pratos");
+  printf("Qual tipo de prato a ser apagado?\n");
+  do{
+    printf("[1] - Prato Principal\n[2] - Acompanhamento\n[3] - Bebida\n> ");
+    scanf("%d", &tipo);
+  } while(tipo>3 || tipo<1);
+  limparTela();
+  if(tipo==1){
+    criaTitulo("Pratos Principais");
+    qtd = mostrarRefeicoes(menu, tipo);
+  } else if(tipo==2){
+    criaTitulo("Acompanhamento");
+    qtd = mostrarRefeicoes(menu, tipo);
+  } else {
+    criaTitulo("Bebidas");
+    qtd = mostrarRefeicoes(menu, tipo);
+  }
+  printf("Qual prato deseja apagar?\n> ");
+  scanf("%d", &esse);
+  limparTela();
+  if(esse<=qtd) {
+    PONT apagar;
+    apagar = apagarPrato(menu, tipo, esse); 
+    if(apagar!=NULL){
+      findAndDelete(apagar->reg);
+      readFile(&novoMenu);
+      puts("Prato apagado com sucesso!");
+      printf("Voltando ao menu principal...\n\n");
+      aperteEnter();
+      opcoesCliente(&novoMenu, pedido);
+    }
+  }
+}
+
 
 // // MENU CHEF
 void opcoesChef(PILHA *menu, FILA *pedido){
   int sn;
   limparTela();
   criaTitulo("Menu Corporativo");
-  printf("[1] - Entregar pratos\n[2] - Adicionar pratos\n[3] - Alterar pratos\n[4] - Voltar ao menu do cliente\n");
+  printf("[1] - Entregar pratos\n[2] - Adicionar pratos\n[3] - Alterar pratos\n[4] - Apagar pratos\n[5] - Voltar ao menu do cliente\n");
   printf("=================================\n> ");
-  // char opcoes[] = "[1] - Entregar pratos\n[2] - Adicionar pratos\n[3] - Alterar pratos\n[4] - Voltar ao menu do cliente\n";
-  // criaMenu("Menu Corporativo", opcoes);
   scanf("%d",&sn);
   limparTela();
   switch (sn)
@@ -225,6 +262,10 @@ void opcoesChef(PILHA *menu, FILA *pedido){
     opcoesChef(menu, pedido);
     break;
   case 4:
+    apagarPratos(menu, pedido);
+    opcoesChef(menu, pedido);
+    break;
+  case 5:
     opcoesCliente(menu, pedido);
     opcoesChef(menu, pedido);
     break;

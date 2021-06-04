@@ -87,13 +87,14 @@ void deleteLine(char *regLine){
     int i;
     // Escaneia cada linha do arquivo
     for (i = 0; i <= count; i++) 
-      fscanf(fptr, "%1023[^\n]\n", temp[i]);
+      fscanf(fptr, "%[^\n]\n", temp[i]);
     fclose(fptr);
 
     fptr = fopen(fileName, "w");
-    fprintf(fptr, "Prato,Descricao,Preco,Tipo\n");
-    for(i=0;i<=count;i++)
-      if(strcmp(temp[i], regLine)!=0) fprintf(fptr, "\n%s", temp[i]);
+    fprintf(fptr, "Prato,Descricao,Preco,Tipo");
+    for(i=1;i<=count;i++){
+      if(strlen(regLine)-strlen(temp[i])!=1) fprintf(fptr, "\n%s", temp[i]);
+    }
 
     fclose(fptr);
   }
