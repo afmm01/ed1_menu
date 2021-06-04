@@ -94,6 +94,8 @@ void opcoesCliente(PILHA *menu, FILA *pedido){
   } else {
     puts("Opcao inexistente no menu");
     aperteEnter();
+    getchar();
+    opcoesCliente(menu, pedido);
   }
 }
 
