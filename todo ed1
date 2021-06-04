@@ -2,7 +2,6 @@ TODO:
 	Prato:
 ✅️	  - Nome
 ✅️	  - Descrição
-❎️	  - Ingredientes
 ✅️	  - Preco
 ✅️	  - Tipo(Principal, Acompanhamento, Bebida)
 	File Handling
@@ -13,10 +12,9 @@ TODO:
 ✅️		// mostrar pratos
 ❎️		// escolher pratos
 ❎️		// preco dos pratos
-		fazer pedido
-		ir para menu chef
+✅️		fazer pedido
+✅️		ir para menu chef
 	Menu chef
 ✅️		adicionar pratos
-		alterar pratos
-		tirar pratos
+✅️		alterar pratos
 ✅️		entregar pratos

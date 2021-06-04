@@ -5,9 +5,9 @@ void iniciarFila(FILA* f){
     f->fim = NULL;
 }
 
-void enfileira(FILA* f, int val){
+void enfileira(FILA* f, PEDIDO ped){
     PONTF novo = (PONTF) malloc(sizeof(ELEMENTOF));
-    novo->val = val;
+    novo->ped = ped;
     novo->prox = NULL;
     if(f->inicio==NULL){
         f->inicio = novo;
@@ -19,10 +19,10 @@ void enfileira(FILA* f, int val){
 
 int desenfileira(FILA* f){
     if(f->inicio==NULL){
-        printf("Erro! A fila esta vazia.\n");
+        printf("Erro! A fila de pedidos esta vazia.\n");
         return 0;
     }
-    printf("Valor %d saiu da fila\n", f->inicio->val);
+    printf("Pedido %s foi entregue com sucesso\n", f->inicio->ped.nome);
     PONTF apagar = f->inicio;
     f->inicio = f->inicio->prox;
     free(apagar);
@@ -42,10 +42,15 @@ int tamanhoFila(FILA* f) {
   return tam;
 }
 
-void mostrarFila(FILA* f){
+void emitirNota(char *nome, float val, int qtd, int tam) {
+    int espaco = (tam - strlen(nome)) / 2;
+    printf("%s%*s%*s%d x %.2f\n", nome, espaco, "", espaco, "", qtd, val);
+}
+
+void mostrarFila(FILA* f, int tam){
  PONTF end = f->inicio;
   while (end != NULL){
-    printf("[%d]", end->val);
+    emitirNota(end->ped.nome, end->ped.val, end->ped.qtd, tam);
     end = end->prox;
   }
   printf("\n");

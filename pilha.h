@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "fila.h"
 
 #define TAM 30
 #define TAM_DESC 200
@@ -30,7 +31,7 @@ void mostrarPilha(PILHA *p);
 int mostrarRefeicoes(PILHA *p, int tipo);
 void enfase(char*, int);
 void limparTela();
-PONT apresentarPrato(PILHA *, int);
+PEDPTR apresentarPrato(PILHA *, int);
 void trocarPrato(PILHA *, int, int);
 void incluirElemento(PILHA *p, REGISTRO reg);
 void apagarTopo(PILHA* p);

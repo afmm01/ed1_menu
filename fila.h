@@ -1,8 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+#define TAM 30
+
+typedef struct {
+    char nome[TAM];
+    float val;
+    int qtd;
+    int tipo;
+} PEDIDO, *PEDPTR;
 
 typedef struct auxf {
-    int val;
+    PEDIDO ped;
     struct auxf* prox;
 } ELEMENTOF, *PONTF;
 
@@ -13,10 +23,11 @@ typedef struct {
 } FILA;
 
 
-void iniciarFila(FILA* f);
-void enfileira(FILA* f, int val);
-int desenfileira(FILA* f);
-void adicionarNaFila(FILA *f);
-int tamanhoFila(FILA* f);
-FILA ordernar(FILA *f1, FILA *f2);
-void mostrarFila(FILA* f);
+void iniciarFila(FILA*);
+void enfileira(FILA*, PEDIDO);
+int desenfileira(FILA*);
+void adicionarNaFila(FILA *);
+int tamanhoFila(FILA*);
+FILA ordernar(FILA *, FILA *);
+void emitirNota(char *nome, float val, int qtd, int tam);
+void mostrarFila(FILA* f, int tam);
