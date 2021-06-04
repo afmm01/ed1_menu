@@ -88,9 +88,12 @@ void opcoesCliente(PILHA *menu, FILA *pedido){
     fazerPedido(menu, pedido);
   } else if(sn==2){
     opcoesChef(menu, pedido);
-  } else {
+  } else if(sn==3){
     puts("Ate logo!");
     exit(1);
+  } else {
+    puts("Opcao inexistente no menu");
+    aperteEnter();
   }
 }
 
@@ -131,36 +134,6 @@ void entregarPrato(FILA *pedido){
   aperteEnter();
 }
 
-void apagarPrato(PILHA *menu){
-  criaTitulo("Apagar Prato");
-  printf("Nome: %s\n", menu->topo->reg.nome);
-  printf("Descricao: %s\n", menu->topo->reg.descricao);
-  printf("Preco: %.2f\n", menu->topo->reg.val);
-  printf("Tipo: ");
-  switch (menu->topo->reg.tipo){
-  case 1:
-    printf("Prato principal\n");
-    break;
-  case 2:
-    printf("Acompanhamento\n");
-    break;  
-  default:
-    printf("Bebida\n");
-    break;
-  }
-  char sOn;
-  do{
-    printf("Tem certeza que deseja apagar? [S/n] ");
-    scanf("%c", &sOn);
-  } while(sOn=='s' || sOn=='S' || sOn== 'N' || sOn=='n');
-  if(sOn=='s' || sOn=='S'){
-    apagarTopo(menu);
-    findAndDelete(menu, menu->topo->reg);
-    printf("O prato foi apagado com sucesso!\n");
-  }
-  printf("Voltando ao menu principal...\n\n");
-}
-
 void adicionarPratos(PILHA *menu){
   REGISTRO prato;
   float valor;
@@ -181,7 +154,7 @@ void adicionarPratos(PILHA *menu){
     // prato.val = valor;
     do{
       printf("Qual é o tipo de prato?\n");
-      printf("[1] Principal \n[2] Acompanhamento\n[3] Bebida\n>");
+      printf("[1] Principal \n[2] Acompanhamento\n[3] Bebida\n> ");
       scanf("%d", &prato.tipo);
     } while(prato.tipo>3 || prato.tipo<1);
 

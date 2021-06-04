@@ -99,9 +99,9 @@ void deleteLine(char *regLine){
   }
 }
 
-void findAndDelete(PILHA *p, REGISTRO reg){
+void findAndDelete(REGISTRO reg){
   char regLine[250] = "";
-  // strcat(regLine, "me ajuda ai po");
+  strcat(regLine, "\n");
   strcat(regLine, reg.nome);
   strcat(regLine, ",");
   strcat(regLine, reg.descricao);

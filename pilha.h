@@ -35,6 +35,7 @@ PEDPTR apresentarPrato(PILHA *, int);
 void trocarPrato(PILHA *, int, int);
 void incluirElemento(PILHA *p, REGISTRO reg);
 void apagarTopo(PILHA* p);
+PONT apagarPrato(PILHA *p, int tipo, int esse);
 int tamanho(PILHA *p);
 REGISTRO buscar(PILHA *p, int pos);
 PILHA inverter(PILHA *p);

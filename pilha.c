@@ -1,5 +1,6 @@
 #include "pilha.h"
 #include "string.h"
+#include "file.h"
 
 #define TAM 30
  
@@ -158,6 +159,37 @@ void apagarTopo(PILHA* p) {
     PONT apagar = p->topo;
     p->topo = p->topo->prox;
     free(apagar);
+}
+
+PONT apagarPrato(PILHA *p, int tipo, int esse){
+  PONT end = p->topo;
+  int qtd=0, carac;
+  char sOn;
+  while (end != NULL) {
+    if(end->reg.tipo==tipo){
+      qtd++;
+      if(esse==qtd){
+        limparTela();
+        printf("Prato a ser apagado:\n");
+        printf("--------------------------------------\n");
+        printf("[1] - Nome do prato: ");
+        puts(end->reg.nome);
+        printf("[2] - Descricao: ");
+        puts(end->reg.descricao);
+        printf("[3] - Valor: %.2f", end->reg.val);
+        printf("\n[4] - Tipo: %d\n", end->reg.tipo);
+        printf("--------------------------------------\n");
+
+        printf("Tem certeza que deseja apagar? [S/n] ");
+        scanf(" %c", &sOn);
+        if(sOn== 's' || sOn=='S'){
+          return end;
+        }
+      }
+    }
+    end = end->prox;              
+  }
+  return NULL;
 }
 
 int tamanho(PILHA *p) {
